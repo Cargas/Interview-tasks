@@ -1,6 +1,6 @@
 # Technical Support Engineer Assessment
 
-1Welcome! Thank you for taking the time to complete this technical assessment for the Technical Support Engineer position at Cargas.
+Welcome! Thank you for taking the time to complete this technical assessment for the Technical Support Engineer position at Cargas.
 
 ## Overview
 
