@@ -2,19 +2,27 @@
 
 ## Instructions
 
-For each scenario below, write a professional support ticket response as if you were responding to a real customer. Your response should be sent via email or ticketing system.
+For each scenario below, write the reply you would send to the customer, as if via email or your ticketing system.
+
+Real tickets rarely come with the answer attached. Most scenarios include **evidence** (data, logs, output) that you have already collected. They do not tell you the cause. It is your job to read the evidence, form hypotheses, and decide what to tell the customer and what to ask them.
 
 **What we're evaluating:**
 - Clear, professional communication
 - Empathy and customer focus
-- Diagnostic thinking and problem-solving approach
-- Ability to ask the right clarifying questions
-- Setting appropriate expectations
+- Diagnostic thinking: what you think is happening, and why
+- Asking the right clarifying questions (and not asking for things you already have)
+- Setting honest expectations: what you know, what you don't, and what happens next
+
+**In each response, where it applies:**
+- Say what you think may be happening, and how confident you are
+- List the specific questions you need answered
+- Say what you will do next and when the customer will hear from you
+- Don't promise a fix or a date you can't know
 
 **Submission Format:**
-- Write your responses in a file named `ticket_scenarios_answers.md`
-- Label each response clearly (Scenario 1, Scenario 2)
-- There is no strict length requirement, but aim for responses that are thorough yet concise
+- Write your responses in `ticket_scenarios_answers.md`
+- Label each response clearly (Scenario 1 ... Scenario 5)
+- No strict length requirement; aim for thorough yet concise
 
 ---
 
@@ -45,28 +53,23 @@ For each scenario below, write a professional support ticket response as if you 
 > Thanks,
 > Sarah
 
----
+### Evidence you have:
 
+Sarah attached a sample of the data the script reads (5 of roughly 800 rows):
 
+| id | customer | date | amount |
+|----|----------|------|--------|
+| 7101 | Delta Fuel | 2026-10-26 | 1,240.00 |
+| 7102 | Delta Fuel | 2026-10-27 | 310.50 |
+| 7103 | Ridge Propane | *(blank)* | 890.00 |
+| 7104 | Ridge Propane | 2026-10-28 | 455.25 |
+| 7105 | Summit Energy | 2026-10-29 | 2,010.00 |
+
+She says the data comes from a nightly export from Cargas Energy and that her team added some new accounts on Monday. She has not shared the full script.
 
 ### Your Task:
 
-Write a support ticket response to Sarah as if you were responding to this customer in a real support scenario. 
-
-**The technical answer to the problem is provided below for your reference.** Use this information to craft a professional, helpful response that addresses the customer's needs.
-
-Write your response in your own words as if you were emailing the customer directly.
-
-**The answer to the technical problem is:**
-
-The error is occurring because at least one of the records has a missing (`None`) value for the `date` field, so calling `.strftime()` on it fails. This may be due to new or changed data with null or blank dates. The script needs to check if `record['date']` is not `None` before calling `.strftime()`—for example:
-
-```python
-if record['date']:
-    formatted_date = record['date'].strftime('%Y-%m-%d')
-else:
-    formatted_date = ''
-```
+Write a response to Sarah. You do not need to produce a perfect fix, but she should leave your reply knowing what you think is wrong, what she can try right now, and what you still need from her.
 
 ---
 
@@ -92,9 +95,7 @@ else:
 
 ### Your Task:
 
-Write a support ticket response to James as if you were responding to this customer in a real support scenario.
-
-Write your response in your own words as if you were emailing the customer directly.
+Write a response to James.
 
 ---
 
@@ -118,20 +119,41 @@ Write your response in your own words as if you were emailing the customer direc
 > Thanks,
 > Maria Rodriguez
 
-### Provided Information:
+### Evidence you have:
 
-After initial investigation, you've discovered the following:
-- The report query filters orders by `status = 'completed'` only
-- There are orders in the database with statuses: 'completed', 'pending', 'processing', 'cancelled'
-- The report uses the `total_amount` field directly from the Orders table
-- Some orders have order_date in the previous month but were completed in the current month
-- The customer's manual calculation includes all invoices regardless of status
+**The report's query:**
+
+```sql
+SELECT SUM(total_amount) AS revenue
+FROM Orders
+WHERE status = 'completed'
+  AND order_date >= '2026-10-01'
+  AND order_date <  '2026-11-01';
+```
+
+**All orders for the customer's account, October 2026, grouped by status:**
+
+| status | order count | sum of total_amount |
+|--------|-------------|---------------------|
+| completed | 38 | 45,000.00 |
+| processing | 4 | 3,100.00 |
+| pending | 3 | 2,400.00 |
+| cancelled | 2 | 1,500.00 |
+| **all** | **47** | **52,000.00** |
+
+**Three of the orders, as they appear in the database:**
+
+| id | order_date | status | total_amount |
+|----|------------|--------|--------------|
+| 2231 | 2026-09-29 | completed | 1,800.00 |
+| 2260 | 2026-10-14 | processing | 950.00 |
+| 2274 | 2026-10-22 | cancelled | 700.00 |
+
+The Orders table has no column recording when an order was completed.
 
 ### Your Task:
 
-Write a support ticket response to Maria. Use the provided information to ask specific, technical questions that will help diagnose the discrepancy.
-
-Write your response in your own words as if you were emailing the customer directly.
+Write a response to Maria. Use the evidence to explain what you can already tell her, and ask the specific questions you would need answered to be sure which number is "right" for her purposes.
 
 ---
 
@@ -155,17 +177,31 @@ Write your response in your own words as if you were emailing the customer direc
 > Best regards,
 > Jennifer Park
 
-### Provided Information:
+### Evidence you have:
 
-After initial investigation, you've discovered the following:
-- The import process validates customer email addresses and rejects records with invalid or duplicate emails
-- Import logs show that 50 records were rejected during validation, but the rejection messages weren't sent back to the CRM system
+**Excerpt from the import log on our side:**
+
+```
+2026-10-27 14:02:11 INFO  Import started  batch=B-4471 records=200
+2026-10-27 14:02:12 INFO  Row 1   inserted
+2026-10-27 14:02:12 INFO  Row 2   inserted
+...
+2026-10-27 14:02:12 WARN  Row 17  skipped  code=E102
+2026-10-27 14:02:12 INFO  Row 18  inserted
+...
+2026-10-27 14:02:13 WARN  Row 41  skipped  code=E105
+...
+2026-10-27 14:02:15 INFO  Import finished inserted=150 skipped=50
+2026-10-27 14:02:15 INFO  Response to caller: HTTP 200 {"status":"received","records":200}
+```
+
+Of the 50 skipped rows: 31 are `E102` and 19 are `E105`. The log does not say what these codes mean.
+
+**Customer-side note:** the CRM's own log shows "batch B-4471: sent 200, response 200 OK."
 
 ### Your Task:
 
-Write a support ticket response to Jennifer.
-
-Write your response in your own words as if you were emailing the customer directly.
+Write a response to Jennifer. Decide what you can say now, what you must verify before you say it, and how you will handle that her team believes the import succeeded.
 
 ---
 
@@ -185,20 +221,20 @@ Write your response in your own words as if you were emailing the customer direc
 > Thanks,
 > Robert Chen
 
-### Provided Information:
+### Evidence you have:
 
-After initial investigation, you've discovered the following:
-- The customer's reports use date filters that default to the current month
-- Recent system updates changed how null values are handled in calculations, which may affect report totals
+You looked at his account and found these two things:
+
+**His saved "Sales Summary" report** is set to a date filter of *Current Month*. It was last run on the 4th of the month and shows:
+
+| Customer | Orders | Gross | Discount | Net |
+|----------|--------|-------|----------|-----|
+| Delta Fuel | 3 | 4,200.00 | 200.00 | 4,000.00 |
+| Ridge Propane | 2 | 1,150.00 | *(blank)* | *(blank)* |
+| **Total** | **5** | **5,350.00** | **200.00** | **4,000.00** |
+
+**Our release notes** show that an update about two weeks ago changed how blank values are handled in some report calculations. The notes don't say which reports.
 
 ### Your Task:
 
-Write a support ticket response to Robert.
-
-Write your response in your own words as if you were emailing the customer directly.
-
----
-
-**Remember:** Save all your responses in `ticket_scenarios_answers.md` with clear labels for each scenario.
-
-Good luck!
+Write a response to Robert. He has given you almost nothing, so decide what you can tell him, what you need from him, and how to make it easy for him to answer.
