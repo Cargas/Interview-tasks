@@ -1,10 +1,10 @@
 # Technical Support Engineer Assessment
 
-Thank you for taking the time to complete this assessment for the Technical Support Engineer position at Cargas.
+Thank you for your interest in the Technical Support Engineer position at Cargas, and for taking the time to complete this assessment.
 
 ## Overview
 
-This assessment looks at how you think through problems, not whether you have memorized syntax. It has two parts:
+We want to see how you approach a problem: how you read the evidence, what you'd check, and how you'd communicate with a customer along the way. Memorizing syntax matters much less to us. The assessment has two parts:
 
 1. **SQL Questions** - query and analyze data
 2. **Support Ticket Scenarios** - diagnose and respond to customers
@@ -13,12 +13,12 @@ This assessment looks at how you think through problems, not whether you have me
 
 ## Using AI Tools
 
-**You may use AI tools (ChatGPT, Claude, Copilot, etc.), search, and documentation.** Our team uses them every day, and we want to see how you work with them.
+**You're welcome to use AI tools (ChatGPT, Claude, Copilot, etc.), search, and documentation.** Our team uses them every day, and we're interested in how you work with them.
 
-The rules:
-- You are responsible for every answer you submit. Check it, run it, and fix it if it is wrong.
-- Add a short `ai_notes.md` listing which tools you used, what you asked them, and one place where the AI was wrong or where you changed its answer. "I didn't use any" is a fine answer.
-- We may ask you to explain your answers afterward. If you could not explain it, do not submit it.
+A few things we ask:
+- Treat the answers as yours. Run the queries, check the results, and correct anything that looks off.
+- Include a short `ai_notes.md` with which tools you used, what you asked them, and one place where you checked or changed their output. If you didn't use any, just say so.
+- Submit only what you understand. If we talk afterward, we'd like to hear your reasoning behind your answers.
 
 ## Getting Started
 
@@ -66,7 +66,7 @@ The rules:
    - what you can and cannot promise, and when the customer will hear from you next
 4. Label each response clearly (Scenario 1 ... Scenario 5).
 
-It is fine, and often better, to say "I don't know yet, here is how I will find out."
+It's fine, and often better, to say "I don't know yet, and here's how I'll find out."
 
 ---
 
@@ -92,8 +92,8 @@ Add the following files to your repository:
 
 ## Questions or Technical Issues?
 
-For setup problems, contact **Adam Elchert (aelchert@cargas.com)**.
+If you run into trouble setting up the database or have questions about the instructions, please reach out to **Adam Elchert (aelchert@cargas.com)**. We're happy to help.
 
-Questions about how to solve specific SQL problems or support scenarios are part of the assessment. We can help with technical setup, but not with the answers.
+We can't give hints on the SQL questions or the ticket scenarios themselves, since those are what we're hoping to learn from. If something in them is unclear, make a reasonable assumption and note it in your answer.
 
-## Good Luck!
+## Good luck, and thanks again!

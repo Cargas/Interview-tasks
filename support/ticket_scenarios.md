@@ -4,7 +4,7 @@
 
 For each scenario below, write the reply you would send to the customer, as if via email or your ticketing system.
 
-Real tickets rarely come with the answer attached. Most scenarios include **evidence** (data, logs, output) that you have already collected. They do not tell you the cause. It is your job to read the evidence, form hypotheses, and decide what to tell the customer and what to ask them.
+In real support work, you usually start with a customer's description and whatever evidence you can gather, not a known cause. Most scenarios below include **evidence** (data, logs, output) you've already collected, but not the cause. We'd like to see how you read it, what you think is going on, and what you'd tell and ask the customer.
 
 **What we're evaluating:**
 - Clear, professional communication
@@ -17,7 +17,7 @@ Real tickets rarely come with the answer attached. Most scenarios include **evid
 - Say what you think may be happening, and how confident you are
 - List the specific questions you need answered
 - Say what you will do next and when the customer will hear from you
-- Don't promise a fix or a date you can't know
+- Be honest about what you don't know yet, rather than committing to a fix or date you can't be sure of
 
 **Submission Format:**
 - Write your responses in `ticket_scenarios_answers.md`
@@ -237,4 +237,4 @@ You looked at his account and found these two things:
 
 ### Your Task:
 
-Write a response to Robert. He has given you almost nothing, so decide what you can tell him, what you need from him, and how to make it easy for him to answer.
+Write a response to Robert. He's given very little detail, so decide what you can share with him, what you need from him, and how to make it easy for him to answer.
