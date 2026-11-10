@@ -109,6 +109,9 @@ window.EXERCISES = [
     brief: `
 <h2>Exercise 3: Summarize a messy ticket</h2>
 
+<h3>Background: how deliveries work</h3>
+<p>Our customers are fuel and propane distributors. Each day, dispatchers in the <strong>office system</strong> (the &ldquo;back office&rdquo;) schedule the day's deliveries and assign them to <strong>routes</strong>, one route per driver. A <strong>sync service</strong> then sends each driver's route to the <strong>tablet</strong> in their truck, which is how drivers see their stops. If a route isn't assigned to a driver, or the sync isn't running, that driver's tablet shows nothing.</p>
+
 <h3>Scenario</h3>
 <p>This is a <strong>different customer and a different problem</strong> from the first two exercises.</p>
 <p>It's <strong>3:00 PM Monday</strong>. Lena, the TSE who has been working this ticket, is going off shift. You are picking it up tomorrow morning, and so is another teammate who has never seen it. The thread below is everything so far: customer emails, plus Lena's and Raj's internal notes. It's long and out of order in places.</p>
