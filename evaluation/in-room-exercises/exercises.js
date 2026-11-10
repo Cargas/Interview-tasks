@@ -4,7 +4,7 @@ window.EXERCISES = [
     id: 1,
     title: "Reply to the customer and their manager",
     audience: "Dana Whitfield (Billing Supervisor) and Tom Brandt (Director of Operations)",
-    confirm: "Once you submit, you can't come back to this exercise. Submit and go to Exercise 2?",
+    confirm: "Submit and go to Exercise 2? You can come back and edit this one at any time.",
     brief: `
 <h2>Exercise 1: Reply to the customer and their manager</h2>
 
@@ -41,7 +41,7 @@ window.EXERCISES = [
     id: 2,
     title: "Internal summary for the VPs",
     audience: "VPs of Engineering, Customer Experience, and Sales",
-    confirm: "Once you submit, you can't come back to this exercise. Submit and go to Exercise 3?",
+    confirm: "Submit and go to Exercise 3? You can come back and edit this one at any time.",
     brief: `
 <h2>Exercise 2: Internal summary for the VPs</h2>
 
@@ -105,7 +105,7 @@ window.EXERCISES = [
     id: 3,
     title: "Post-mortem",
     audience: "Leadership, Engineering, Support, and CX (who will also share it with the customer)",
-    confirm: "This is the last exercise. Submit and finish?",
+    confirm: "This is the last exercise. Submit and finish? You can still go back and edit afterward.",
     brief: `
 <h2>Exercise 3: Post-mortem</h2>
 

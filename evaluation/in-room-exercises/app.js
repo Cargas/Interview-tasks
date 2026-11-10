@@ -52,7 +52,7 @@
   }
   function newState(name) {
     return {
-      name: name, startedAt: Date.now(), current: 0,
+      name: name, startedAt: Date.now(), current: 0, furthest: 0,
       submitted: [false, false, false],
       responses: ['', '', ''],
       seconds: [0, 0, 0],
@@ -86,6 +86,7 @@
       $('#resume-name').textContent = saved.name;
       $('#btn-resume').onclick = function () {
         state = saved;
+        if (typeof state.furthest !== 'number') state.furthest = Math.min(EX.length - 1, Math.max(state.current, state.submitted.lastIndexOf(true) + 1));
         goFullscreen();
         if (state.submitted.every(Boolean)) { show('#screen-done'); } else { enterWork(); }
       };
@@ -121,9 +122,10 @@
     EX.forEach(function (ex, i) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'step' + (i === state.current ? ' current' : '') + (state.submitted[i] ? ' done' : '') + (INTERVIEWER ? ' clickable' : '');
+      var reachable = INTERVIEWER || i <= state.furthest;
+      b.className = 'step' + (i === state.current ? ' current' : '') + (state.submitted[i] ? ' done' : '') + (reachable ? ' clickable' : '');
       b.textContent = (state.submitted[i] ? '✓ ' : '') + 'Exercise ' + ex.id;
-      if (INTERVIEWER) b.onclick = function () { flush(); state.current = i; renderSteps(); loadExercise(i); };
+      if (reachable) b.onclick = function () { flush(); state.current = i; persist(); renderSteps(); loadExercise(i); };
       else b.disabled = true;
       box.appendChild(b);
     });
@@ -134,14 +136,13 @@
     $('#brief-inner').innerHTML = ex.brief;
     var ed = $('#editor');
     ed.innerHTML = state.responses[i] || '';
-    var locked = state.submitted[i] && !INTERVIEWER;
-    ed.contentEditable = locked ? 'false' : 'true';
-    $('#btn-submit').textContent = i === EX.length - 1 ? 'Submit & finish' : 'Submit & continue';
-    $('#btn-submit').disabled = locked;
+    ed.contentEditable = 'true';
+    var revisiting = i < state.furthest;
+    $('#btn-submit').textContent = revisiting ? 'Continue to Exercise ' + (state.furthest + 1) : (i === EX.length - 1 ? 'Submit & finish' : 'Submit & continue');
     prevLen = ed.innerText.length;
     updateCount();
     $('#brief').scrollTop = 0;
-    if (!locked) ed.focus();
+    ed.focus();
   }
 
   function flush() {
@@ -167,7 +168,6 @@
   function startClock() {
     setInterval(function () {
       if ($('#screen-work').classList.contains('hidden')) return;
-      if (state.submitted[state.current] && !INTERVIEWER) return;
       state.seconds[state.current]++;
       if (state.seconds[state.current] % 3 === 0) { flush(); }
     }, 1000);
@@ -298,6 +298,7 @@
   function initSubmit() {
     $('#btn-submit').onclick = function () {
       var i = state.current;
+      if (i < state.furthest) { flush(); state.current = state.furthest; persist(); renderSteps(); loadExercise(state.current); return; }
       var empty = words($('#editor').innerText) === 0;
       openModal(
         empty ? 'Submit an empty response?' : 'Submit Exercise ' + EX[i].id + '?',
@@ -306,7 +307,7 @@
           flush();
           state.submitted[i] = true;
           persist();
-          if (i < EX.length - 1) { state.current = i + 1; persist(); renderSteps(); loadExercise(state.current); }
+          if (i < EX.length - 1) { state.current = i + 1; state.furthest = Math.max(state.furthest, i + 1); persist(); renderSteps(); loadExercise(state.current); }
           else { show('#screen-done'); }
         });
     };
@@ -319,6 +320,7 @@
     };
     $('#btn-copy-out').onclick = function () { flush(); downloadHtml(); };
     if (window.showSaveFilePicker) $('#btn-autofile').onclick = pickFile; else $('#btn-autofile').classList.add('hidden');
+    $('#btn-back').onclick = function () { state.current = EX.length - 1; persist(); show('#screen-work'); renderSteps(); loadExercise(state.current); };
     $('#btn-dl-html').onclick = downloadHtml;
     $('#btn-dl-txt').onclick = downloadTxt;
   }
