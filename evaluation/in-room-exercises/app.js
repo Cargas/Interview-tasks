@@ -24,7 +24,8 @@
     var len = function (s) { return s ? s.responses.join('').length + s.log.length : -1; };
     return len(b) > len(a) ? b : a;
   }
-  var fileHandle = null, fileTimer = null;
+  var dirHandle = null, fileTimer = null;
+  function safeName() { return (state && state.name || 'candidate').replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '') || 'candidate'; }
   function persist() {
     var ok = true, json = JSON.stringify(state);
     try {
@@ -33,21 +34,36 @@
     } catch (e) { ok = false; }
     var el = $('#saved');
     if (el) {
-      el.textContent = (ok ? 'Saved ' : 'NOT SAVED ') + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + (fileHandle ? ' + file' : '');
+      el.textContent = (ok ? 'Saved ' : 'NOT SAVED ') + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + (dirHandle ? ' + folder' : '');
     }
-    if (fileHandle) { clearTimeout(fileTimer); fileTimer = setTimeout(writeFile, 1500); }
+    if (dirHandle) { clearTimeout(fileTimer); fileTimer = setTimeout(writeLive, 1500); }
   }
-  function writeFile() {
-    if (!fileHandle || !state) return;
-    fileHandle.createWritable().then(function (w) {
-      return w.write(buildTxt()).then(function () { return w.close(); });
-    }).catch(function () { var el = $('#saved'); if (el) el.textContent = 'File save failed'; });
+  function writeInFolder(name, content) {
+    return dirHandle.getFileHandle(name, { create: true }).then(function (fh) {
+      return fh.createWritable();
+    }).then(function (w) {
+      return w.write(content).then(function () { return w.close(); });
+    });
   }
-  function pickFile() {
-    if (!window.showSaveFilePicker) { alert('Saving straight to a file needs Chrome or Edge.'); return; }
-    var safe = (state && state.name || 'candidate').replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '');
-    window.showSaveFilePicker({ suggestedName: safe + '_written_exercises_autosave.txt', types: [{ description: 'Text', accept: { 'text/plain': ['.txt'] } }] })
-      .then(function (h) { fileHandle = h; $('#btn-autofile').textContent = 'File autosave on'; persist(); writeFile(); })
+  function writeLive() {
+    if (!dirHandle || !state) return;
+    writeInFolder(safeName() + '_live.md', buildMd()).catch(function () { var el = $('#saved'); if (el) el.textContent = 'Folder save failed'; });
+  }
+  // Called after each Submit: a dated .html and .md snapshot, in the chosen folder or as downloads.
+  function snapshot(label) {
+    flush();
+    var base = safeName() + '_' + label;
+    if (dirHandle) {
+      Promise.all([writeInFolder(base + '.html', buildHtml()), writeInFolder(base + '.md', buildMd())])
+        .catch(function () { var el = $('#saved'); if (el) el.textContent = 'Snapshot failed'; });
+    } else {
+      save(buildHtml(), 'text/html', 'html', base);
+      save(buildMd(), 'text/markdown', 'md', base);
+    }
+  }
+  function pickFolder() {
+    window.showDirectoryPicker({ mode: 'readwrite' })
+      .then(function (h) { dirHandle = h; $('#btn-autofile').textContent = 'Folder autosave on'; persist(); writeLive(); })
       .catch(function () {});
   }
   function newState(name) {
@@ -307,6 +323,7 @@
           flush();
           state.submitted[i] = true;
           persist();
+          snapshot('after_exercise_' + EX[i].id);
           if (i < EX.length - 1) { state.current = i + 1; state.furthest = Math.max(state.furthest, i + 1); persist(); renderSteps(); loadExercise(state.current); }
           else { show('#screen-done'); }
         });
@@ -319,7 +336,7 @@
       if (document.fullscreenElement) document.exitFullscreen(); else goFullscreen();
     };
     $('#btn-copy-out').onclick = function () { flush(); downloadHtml(); };
-    if (window.showSaveFilePicker) $('#btn-autofile').onclick = pickFile; else $('#btn-autofile').classList.add('hidden');
+    if (window.showDirectoryPicker) $('#btn-autofile').onclick = pickFolder; else $('#btn-autofile').classList.add('hidden');
     $('#btn-back').onclick = function () { state.current = EX.length - 1; persist(); show('#screen-work'); renderSteps(); loadExercise(state.current); };
     $('#btn-dl-html').onclick = downloadHtml;
     $('#btn-dl-txt').onclick = downloadTxt;
@@ -382,8 +399,8 @@
     'left-fullscreen': 'Times left full screen'
   };
 
-  function downloadHtml() {
-    flush();
+  function downloadHtml() { flush(); save(buildHtml(), 'text/html', 'html'); }
+  function buildHtml() {
     var s = summary();
     var h = '<!doctype html><html><head><meta charset="utf-8"><title>' + esc(state.name) + ' - Written Exercises</title>' +
       '<style>body{font:16px/1.6 -apple-system,Segoe UI,Arial,sans-serif;max-width:820px;margin:32px auto;padding:0 20px;color:#1b1f24}' +
@@ -417,12 +434,23 @@
       h += '</div>';
     }
     h += '</body></html>';
-    save(h, 'text/html', 'html');
+    return h;
   }
 
   function downloadTxt() {
     flush();
     save(buildTxt(), 'text/plain', 'txt');
+  }
+  function buildMd() {
+    var s = summary();
+    var t = '# ' + state.name + '\n\nWritten exercises. Saved ' + new Date().toLocaleString() + '\n\n';
+    EX.forEach(function (ex, i) {
+      t += '## Exercise ' + ex.id + ': ' + ex.title + '\n\n*' + fmt(state.seconds[i]) + ', ' + words(responseText(i)) + ' words, ' + (state.submitted[i] ? 'submitted' : 'not submitted') + '*\n\n' + (responseText(i) || '(no response yet)') + '\n\n';
+    });
+    t += '## Integrity log\n\n';
+    Object.keys(LABELS).forEach(function (k) { t += '- ' + LABELS[k] + ': ' + (s.counts[k] || 0) + '\n'; });
+    t += '- Total time away: ' + fmt(s.away) + '\n';
+    return t;
   }
   function buildTxt() {
     var s = summary();
@@ -436,13 +464,13 @@
     return t;
   }
 
-  function save(content, mime, ext) {
-    var safe = state.name.replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '') || 'candidate';
+  function save(content, mime, ext, base) {
+    var safe = safeName();
     var d = new Date(), pad = function (n) { return (n < 10 ? '0' : '') + n; };
     var stamp = d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes());
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([content], { type: mime + ';charset=utf-8' }));
-    a.download = safe + '_written_exercises_' + stamp + '.' + ext;
+    a.download = (base || safe + '_written_exercises_' + stamp) + '.' + ext;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
   }
