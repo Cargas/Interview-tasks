@@ -13,7 +13,6 @@ Open `index.html#interviewer` to make the Exercise 1/2/3 buttons clickable (to p
 ## What it does to discourage AI use
 - Paste, cut, copy, drag-and-drop and right-click are blocked in the editor. The brief can't be selected or copied.
 - Window switches, full-screen exits, blocked paste attempts and large one-shot insertions are logged and appear in the report.
-- Suggested time per exercise is shown; it's a guide, not a lock.
 
 ## What it can't do
 A web page can't see a phone on the desk, a second laptop, or someone retyping the brief into another tool. Treat the log as a deterrent and a conversation starter, not proof. Sit in the room, use a laptop you control, and ask them to walk through their reasoning afterward.

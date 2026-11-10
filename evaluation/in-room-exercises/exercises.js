@@ -4,11 +4,9 @@ window.EXERCISES = [
     id: 1,
     title: "Reply to the customer and their manager",
     audience: "Dana Whitfield (Billing Supervisor) and Tom Brandt (Director of Operations)",
-    minutes: 12,
     confirm: "Once you submit, you can't come back to this exercise. Submit and go to Exercise 2?",
     brief: `
 <h2>Exercise 1: Reply to the customer and their manager</h2>
-<p class="meta">Suggested time: 10 to 12 minutes</p>
 
 <h3>Scenario</h3>
 <p>You are a Technical Support Engineer at Cargas. A customer contacted support about a billing problem. It has been investigated and <strong>fixed</strong>. You are now writing the reply to close the loop.</p>
@@ -43,11 +41,9 @@ window.EXERCISES = [
     id: 2,
     title: "Internal summary for the VPs",
     audience: "VPs of Engineering, Customer Experience, and Sales",
-    minutes: 12,
     confirm: "Once you submit, you can't come back to this exercise. Submit and go to Exercise 3?",
     brief: `
 <h2>Exercise 2: Internal summary for the VPs</h2>
-<p class="meta">Suggested time: 10 to 12 minutes</p>
 
 <h3>Scenario</h3>
 <p>Same incident as the last exercise: Ridgeline Propane &amp; Fuel, 212 invoices with incorrect tax, a frustrated billing supervisor, and a Director of Operations who says &ldquo;we'll need to talk about whether this is working for us.&rdquo;</p>
@@ -109,11 +105,9 @@ window.EXERCISES = [
     id: 3,
     title: "Post-mortem",
     audience: "Leadership, Engineering, Support, and CX (who will also share it with the customer)",
-    minutes: 15,
     confirm: "This is the last exercise. Submit and finish?",
     brief: `
 <h2>Exercise 3: Post-mortem</h2>
-<p class="meta">Suggested time: 12 to 15 minutes</p>
 
 <h3>Scenario</h3>
 <p>Same incident. It's been a few days. Leadership has asked for a post-mortem. <strong>It will be shared with everyone: leadership, Engineering and Support, and our CX team, who will also share it with the customer.</strong></p>

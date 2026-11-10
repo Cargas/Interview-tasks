@@ -140,7 +140,6 @@
     $('#btn-submit').disabled = locked;
     prevLen = ed.innerText.length;
     updateCount();
-    updateTimer();
     $('#brief').scrollTop = 0;
     if (!locked) ed.focus();
   }
@@ -160,22 +159,16 @@
     $('#count').textContent = n + (n === 1 ? ' word' : ' words');
   }
 
-  /* ---------- timer ---------- */
+  /* ---------- elapsed time (recorded for the report only, never shown) ---------- */
   function fmt(s) {
     var m = Math.floor(s / 60), r = s % 60;
     return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r;
-  }
-  function updateTimer() {
-    var i = state.current, el = $('#timer');
-    el.textContent = fmt(state.seconds[i]) + ' / ' + EX[i].minutes + ':00';
-    el.classList.toggle('over', state.seconds[i] > EX[i].minutes * 60);
   }
   function startClock() {
     setInterval(function () {
       if ($('#screen-work').classList.contains('hidden')) return;
       if (state.submitted[state.current] && !INTERVIEWER) return;
       state.seconds[state.current]++;
-      updateTimer();
       if (state.seconds[state.current] % 3 === 0) { flush(); }
     }, 1000);
     // Last-chance saves when the page is hidden, closed, or the browser is backgrounded.
@@ -398,10 +391,10 @@
     h += '<h1>' + esc(state.name) + '</h1><p class="m">Written exercises &middot; started ' + esc(new Date(state.startedAt).toLocaleString()) +
       ' &middot; exported ' + esc(new Date().toLocaleString()) + '</p>';
 
-    h += '<h2>Overview</h2><table><tr><th>Exercise</th><th>Time</th><th>Suggested</th><th>Words</th><th>Submitted</th></tr>';
+    h += '<h2>Overview</h2><table><tr><th>Exercise</th><th>Time spent</th><th>Words</th><th>Submitted</th></tr>';
     EX.forEach(function (ex, i) {
       var w = words(responseText(i));
-      h += '<tr><td>' + ex.id + '. ' + esc(ex.title) + '</td><td>' + fmt(state.seconds[i]) + '</td><td>' + ex.minutes + ':00</td><td>' + w + '</td><td>' + (state.submitted[i] ? 'Yes' : 'No') + '</td></tr>';
+      h += '<tr><td>' + ex.id + '. ' + esc(ex.title) + '</td><td>' + fmt(state.seconds[i]) + '</td><td>' + w + '</td><td>' + (state.submitted[i] ? 'Yes' : 'No') + '</td></tr>';
     });
     h += '</table>';
 
@@ -433,7 +426,7 @@
     var s = summary();
     var t = state.name + '\nWritten exercises, exported ' + new Date().toLocaleString() + '\n\n';
     EX.forEach(function (ex, i) {
-      t += '=== Exercise ' + ex.id + ': ' + ex.title + ' (' + fmt(state.seconds[i]) + ' of ' + ex.minutes + ':00, ' + words(responseText(i)) + ' words) ===\n\n' + (responseText(i) || '(no response)') + '\n\n';
+      t += '=== Exercise ' + ex.id + ': ' + ex.title + ' (' + fmt(state.seconds[i]) + ', ' + words(responseText(i)) + ' words) ===\n\n' + (responseText(i) || '(no response)') + '\n\n';
     });
     t += '=== Integrity log ===\n';
     Object.keys(LABELS).forEach(function (k) { t += LABELS[k] + ': ' + (s.counts[k] || 0) + '\n'; });

@@ -84,8 +84,6 @@ input[type="text"] {
 .step.current { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
 .step.done { color: var(--ink); }
 .step.clickable { cursor: pointer; }
-.timer { font-variant-numeric: tabular-nums; font-weight: 600; }
-.timer.over { color: var(--warn); }
 .saved { font-size: 13px; color: var(--muted); min-width: 110px; text-align: right; }
 
 .split { flex: 1; display: flex; min-height: 0; }
