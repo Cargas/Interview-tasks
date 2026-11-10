@@ -111,7 +111,9 @@ window.EXERCISES = [
 
 <h3>Scenario</h3>
 <p>This is a <strong>different customer and a different problem</strong> from the first two exercises.</p>
-<p>It's <strong>3:00 PM Monday</strong>. Lena, the TSE who has been working this ticket, is going off shift. You are picking it up tomorrow morning, and so is another teammate who has never seen it. The thread below is everything so far: customer emails, plus Lena's and Raj's internal notes (shown on a pale yellow background, like in Zendesk). It's long and out of order in places.</p>
+<p>It's <strong>3:00 PM Monday</strong>. Lena, the TSE who has been working this ticket, is going off shift. You are picking it up tomorrow morning, and so is another teammate who has never seen it. The thread below is everything so far: customer emails, plus Lena's and Raj's internal notes. It's long and out of order in places.</p>
+
+<div class="task"><strong>Your task:</strong> Write the handoff summary for the teammate taking over tomorrow. It should be something they could read in about a minute and then act on.</div>
 
 <h3>Ticket thread</h3>
 <div class="ticket-hd"><div class="ts">RE: RE: FW: drivers not seeing deliveries??</div><div class="tm">Customer: Prairie Valley Propane</div></div>
@@ -158,7 +160,6 @@ window.EXERCISES = [
 
 <div class="msg agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="mt">3:00 PM</span></div><div class="mx">Marcus, I'm handing this to a colleague who will pick it up first thing tomorrow. You'll have an update from us by 9 AM.</div></div></div>
 
-<div class="task"><strong>Your task:</strong> Write the handoff summary for the teammate taking over tomorrow. It should be something they could read in about a minute and then act on.</div>
 `
   }
 ];
