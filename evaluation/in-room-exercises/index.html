@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Written Exercises</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- START SCREEN -->
+<main id="screen-start" class="screen center">
+  <div class="card">
+    <h1>Written Exercises</h1>
+    <p class="lead">Three short writing exercises about the same customer incident. About 10 to 15 minutes each.</p>
+
+    <ul class="rules">
+      <li>Write in your own words. <strong>AI tools and outside help are not part of this exercise.</strong></li>
+      <li>Copy, cut, paste and drag-and-drop are turned off in this page, and the brief can't be selected.</li>
+      <li>Switching to another window or leaving full screen is recorded and shown to your interviewer.</li>
+      <li>Your work saves automatically as you type.</li>
+      <li>If something in the scenario feels incomplete, say what you'd check or ask. That's a good answer.</li>
+    </ul>
+
+    <div id="resume-box" class="resume hidden">
+      <p>A saved session was found for <strong id="resume-name"></strong>.</p>
+      <div class="row">
+        <button id="btn-resume" class="btn primary">Resume</button>
+        <button id="btn-fresh" class="btn">Start over</button>
+      </div>
+    </div>
+
+    <form id="start-form" autocomplete="off">
+      <label for="name">Your name</label>
+      <input id="name" type="text" required maxlength="80" placeholder="First and last name">
+      <button class="btn primary big" type="submit">Begin (opens full screen)</button>
+    </form>
+  </div>
+</main>
+
+<!-- WORK SCREEN -->
+<div id="screen-work" class="screen hidden">
+  <header class="topbar">
+    <div class="steps" id="steps"></div>
+    <div class="spacer"></div>
+    <div class="timer" id="timer" title="Suggested time">00:00</div>
+    <span class="saved" id="saved">Saved</span>
+    <button class="btn small" id="btn-brief">Hide brief</button>
+    <button class="btn small" id="btn-fs">Full screen</button>
+    <button class="btn small" id="btn-autofile" title="Chrome/Edge: also write every change to a file on disk">Autosave to file…</button>
+    <button class="btn small" id="btn-copy-out">Download copy</button>
+  </header>
+
+  <div class="split" id="split">
+    <section class="brief" id="brief" aria-label="Exercise brief">
+      <div class="brief-inner" id="brief-inner"></div>
+    </section>
+
+    <section class="editor-wrap" aria-label="Your response">
+      <div class="toolbar" id="toolbar" role="toolbar">
+        <button type="button" data-cmd="bold" title="Bold (Ctrl/Cmd+B)"><b>B</b></button>
+        <button type="button" data-cmd="italic" title="Italic (Ctrl/Cmd+I)"><i>I</i></button>
+        <button type="button" data-cmd="underline" title="Underline (Ctrl/Cmd+U)"><u>U</u></button>
+        <span class="sep"></span>
+        <button type="button" data-block="H2" title="Heading">Heading</button>
+        <button type="button" data-block="P" title="Normal text">Normal</button>
+        <span class="sep"></span>
+        <button type="button" data-cmd="insertUnorderedList" title="Bulleted list">&bull; List</button>
+        <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+        <span class="sep"></span>
+        <button type="button" data-cmd="undo" title="Undo">Undo</button>
+        <button type="button" data-cmd="redo" title="Redo">Redo</button>
+        <div class="spacer"></div>
+        <span class="count" id="count">0 words</span>
+      </div>
+
+      <div id="editor" class="editor" contenteditable="true" spellcheck="true"
+           data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false"
+           role="textbox" aria-multiline="true" aria-label="Write your response here"></div>
+
+      <footer class="editor-foot">
+        <span class="hint">Pasting is disabled. Write it out in your own words.</span>
+        <div class="spacer"></div>
+        <button class="btn primary" id="btn-submit">Submit &amp; continue</button>
+      </footer>
+    </section>
+  </div>
+</div>
+
+<!-- DONE SCREEN -->
+<main id="screen-done" class="screen center hidden">
+  <div class="card">
+    <h1>All done. Thank you.</h1>
+    <p class="lead">Your responses are saved. Let your interviewer know you've finished.</p>
+    <div class="row">
+      <button class="btn primary" id="btn-dl-html">Download report (.html)</button>
+      <button class="btn" id="btn-dl-txt">Download text (.txt)</button>
+    </div>
+    <p class="fine">Interviewer: the report includes each response, time per exercise, and the integrity log (paste attempts, window switches, full-screen exits).</p>
+  </div>
+</main>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <h2 id="modal-title"></h2>
+    <p id="modal-body"></p>
+    <div class="row end">
+      <button class="btn" id="modal-cancel">Keep working</button>
+      <button class="btn primary" id="modal-ok">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script src="exercises.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
