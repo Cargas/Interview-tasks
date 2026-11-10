@@ -4,6 +4,10 @@
   var KEY = 'cargas-inroom-exercises-v1';
   var EX = window.EXERCISES;
   var INTERVIEWER = location.hash === '#interviewer'; // steps become clickable
+  window.addEventListener('hashchange', function () {
+    INTERVIEWER = location.hash === '#interviewer';
+    if (state && !$('#screen-work').classList.contains('hidden')) { flush(); renderSteps(); loadExercise(state.current); }
+  });
   var $ = function (s) { return document.querySelector(s); };
 
   var state = null;
