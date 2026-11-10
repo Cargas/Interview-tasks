@@ -8,6 +8,8 @@
   --accent-ink: #ffffff;
   --warn: #b45309;
   --brief-bg: #fbfbfc;
+  --note-bg: #fff6d6; --note-line: #ecd78a; --note-tag: #7a5d00;
+  --av: #68737d;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -20,6 +22,8 @@
     --accent-ink: #0b1220;
     --warn: #f0a04b;
     --brief-bg: #181c21;
+    --note-bg: #3a3317; --note-line: #6b5d22; --note-tag: #f2d46a;
+    --av: #5b6573;
   }
 }
 
@@ -162,4 +166,18 @@ input[type="text"] {
   .brief { width: 100%; max-width: none; max-height: 40%; border-right: 0; border-bottom: 1px solid var(--line); }
 }
 
-.brief blockquote.internal { border-left: 3px solid var(--warn); }
+
+/* Zendesk-style ticket thread */
+.ticket-hd { padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); margin: 6px 0 14px; }
+.ticket-hd .ts { font-weight: 700; font-size: 16px; }
+.ticket-hd .tm { color: var(--muted); font-size: 13px; }
+.msg { display: flex; gap: 10px; margin: 0 0 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.msg.internal { background: var(--note-bg); border-color: var(--note-line); }
+.msg .av { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--av); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.msg.agent .av { background: var(--accent); }
+.msg .mb { min-width: 0; flex: 1; }
+.msg .mh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-size: 14px; margin-bottom: 4px; }
+.msg .sub { color: var(--muted); font-size: 13px; }
+.msg .tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--note-tag); border: 1px solid var(--note-line); border-radius: 4px; padding: 0 5px; }
+.msg .mt { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.msg .mx { font-size: 15px; line-height: 1.5; }

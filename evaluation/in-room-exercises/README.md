@@ -19,5 +19,5 @@ A web page can't see a phone on the desk, a second laptop, or someone retyping t
 
 ## Files
 - `index.html`, `style.css`: layout
-- `exercises.js`: the three candidate briefs (edit text here). Exercise 3 is a messy ticket to summarize; internal notes get an orange bar via `blockquote.internal`.
+- `exercises.js`: the three candidate briefs (edit text here). Exercise 3 is a messy ticket to summarize; internal notes are pale yellow (`.msg.internal`), like Zendesk.
 - `app.js`: editor, autosave, lockdown, export

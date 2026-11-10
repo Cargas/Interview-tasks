@@ -111,73 +111,52 @@ window.EXERCISES = [
 
 <h3>Scenario</h3>
 <p>This is a <strong>different customer and a different problem</strong> from the first two exercises.</p>
-<p>It's <strong>3:00 PM Monday</strong>. Lena, the TSE who has been working this ticket, is going off shift. You are picking it up tomorrow morning, and so is another teammate who has never seen it. The thread below is everything so far: customer emails, plus Lena's and Raj's internal notes (shown with an orange bar). It's long and out of order in places.</p>
+<p>It's <strong>3:00 PM Monday</strong>. Lena, the TSE who has been working this ticket, is going off shift. You are picking it up tomorrow morning, and so is another teammate who has never seen it. The thread below is everything so far: customer emails, plus Lena's and Raj's internal notes (shown on a pale yellow background, like in Zendesk). It's long and out of order in places.</p>
 
 <h3>Ticket thread</h3>
-<p class="from">Subject: RE: RE: FW: drivers not seeing deliveries??<br>Customer: Prairie Valley Propane</p>
+<div class="ticket-hd"><div class="ts">RE: RE: FW: drivers not seeing deliveries??</div><div class="tm">Customer: Prairie Valley Propane</div></div>
 
-<p class="from">Mon 7:12 AM &middot; Marcus Delgado (Dispatch Manager, customer)</p>
-<blockquote>Drivers can't see their deliveries on the tablets this morning. 6 of our 14 have nothing. Need this fixed NOW, we have 140 stops today.</blockquote>
+<div class="msg"><div class="av">MD</div><div class="mb"><div class="mh"><b>Marcus Delgado</b> <span class="sub">Dispatch Manager, customer</span><span class="mt">Mon 7:12 AM</span></div><div class="mx">Drivers can't see their deliveries on the tablets this morning. 6 of our 14 have nothing. Need this fixed NOW, we have 140 stops today.</div></div></div>
 
-<p class="from">7:31 AM &middot; Lena (Cargas TSE)</p>
-<blockquote>Hi Marcus, sorry about this. Can you tell me which drivers, what version of the app they're on, and whether the deliveries show up in the office system?</blockquote>
+<div class="msg agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b> <span class="sub">Cargas TSE</span><span class="mt">7:31 AM</span></div><div class="mx">Hi Marcus, sorry about this. Can you tell me which drivers, what version of the app they're on, and whether the deliveries show up in the office system?</div></div></div>
 
-<p class="from">7:44 AM &middot; Marcus</p>
-<blockquote>Office system has everything. Kevin, Aaron, Tomas, Dee, Rob and Sam have nothing. Not sure on the version. Also while I have you, can you tell me why the Friday delivery report prints two copies? It's been like that for weeks.</blockquote>
+<div class="msg"><div class="av">M</div><div class="mb"><div class="mh"><b>Marcus</b><span class="mt">7:44 AM</span></div><div class="mx">Office system has everything. Kevin, Aaron, Tomas, Dee, Rob and Sam have nothing. Not sure on the version. Also while I have you, can you tell me why the Friday delivery report prints two copies? It's been like that for weeks.</div></div></div>
 
-<p class="from">8:20 AM &middot; Marcus (forwarding a text from Kevin, a driver)</p>
-<blockquote>Kevin says his tablet shows "last sync Sat 6:02 PM." So it's been broken since Saturday. You guys must have changed something over the weekend. Sent from my iPhone</blockquote>
+<div class="msg"><div class="av">M</div><div class="mb"><div class="mh"><b>Marcus</b> <span class="sub">forwarding a text from Kevin, a driver</span><span class="mt">8:20 AM</span></div><div class="mx">Kevin says his tablet shows "last sync Sat 6:02 PM." So it's been broken since Saturday. You guys must have changed something over the weekend. Sent from my iPhone</div></div></div>
 
-<p class="from">8:35 AM &middot; INTERNAL NOTE, Lena</p>
-<blockquote class="internal">Checked the app server. "EF Sync Service" is Stopped. Event log shows it stopped Sun 11:48 PM with "There is not enough space on the disk." D: drive has 0 bytes free.</blockquote>
+<div class="msg internal agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="tag">Internal note</span><span class="mt">8:35 AM</span></div><div class="mx">Checked the app server. "EF Sync Service" is Stopped. Event log shows it stopped Sun 11:48 PM with "There is not enough space on the disk." D: drive has 0 bytes free.</div></div></div>
 
-<p class="from">8:52 AM &middot; INTERNAL NOTE, Lena</p>
-<blockquote class="internal">D:\\SQLBackups is 212 GB. It's normally about 40 GB. The backup retention setting is "keep all" and the folder has files going back to Oct 27. No idea who changed it.</blockquote>
+<div class="msg internal agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="tag">Internal note</span><span class="mt">8:52 AM</span></div><div class="mx">D:\\SQLBackups is 212 GB. It's normally about 40 GB. The backup retention setting is "keep all" and the folder has files going back to Oct 27. No idea who changed it.</div></div></div>
 
-<p class="from">9:05 AM &middot; Lena to Marcus</p>
-<blockquote>I think I found it. The sync service stopped because the server ran out of disk space. I'm freeing space now and restarting it. It should be working in 15 to 20 minutes.</blockquote>
+<div class="msg agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b> <span class="sub">to Marcus</span><span class="mt">9:05 AM</span></div><div class="mx">I think I found it. The sync service stopped because the server ran out of disk space. I'm freeing space now and restarting it. It should be working in 15 to 20 minutes.</div></div></div>
 
-<p class="from">9:40 AM &middot; INTERNAL NOTE, Lena</p>
-<blockquote class="internal">Moved backups older than 7 days to the archive share. 160 GB free now. Restarted EF Sync Service at 9:32.</blockquote>
+<div class="msg internal agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="tag">Internal note</span><span class="mt">9:40 AM</span></div><div class="mx">Moved backups older than 7 days to the archive share. 160 GB free now. Restarted EF Sync Service at 9:32.</div></div></div>
 
-<p class="from">9:50 AM &middot; Marcus</p>
-<blockquote>Kevin and Aaron can see their deliveries now. Tomas, Dee, Rob and Sam still have nothing.</blockquote>
+<div class="msg"><div class="av">M</div><div class="mb"><div class="mh"><b>Marcus</b><span class="mt">9:50 AM</span></div><div class="mx">Kevin and Aaron can see their deliveries now. Tomas, Dee, Rob and Sam still have nothing.</div></div></div>
 
-<p class="from">10:05 AM &middot; Priya Natarajan (IT contractor for the customer, added to thread)</p>
-<blockquote>Hi, I manage their IT. I heard there's a VPN issue? We did swap their firewall Thursday, could that be related? Also, we moved the nightly backup job onto the D: drive last week because the NAS was full. I didn't tell anyone, sorry.</blockquote>
+<div class="msg"><div class="av">PN</div><div class="mb"><div class="mh"><b>Priya Natarajan</b> <span class="sub">IT contractor for the customer, added to thread</span><span class="mt">10:05 AM</span></div><div class="mx">Hi, I manage their IT. I heard there's a VPN issue? We did swap their firewall Thursday, could that be related? Also, we moved the nightly backup job onto the D: drive last week because the NAS was full. I didn't tell anyone, sorry.</div></div></div>
 
-<p class="from">10:12 AM &middot; INTERNAL NOTE, Lena</p>
-<blockquote class="internal">Tablets for Tomas, Dee, Rob, Sam are on app v4.1.2. Kevin and Aaron are on v4.2.0. Wondering if 4.1.x uses a different sync endpoint. Not confirmed. Asked Raj (Tier 2).</blockquote>
+<div class="msg internal agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="tag">Internal note</span><span class="mt">10:12 AM</span></div><div class="mx">Tablets for Tomas, Dee, Rob, Sam are on app v4.1.2. Kevin and Aaron are on v4.2.0. Wondering if 4.1.x uses a different sync endpoint. Not confirmed. Asked Raj (Tier 2).</div></div></div>
 
-<p class="from">10:30 AM &middot; Marcus</p>
-<blockquote>Dee says she gets a login error now instead of a blank screen. Sam's tablet is in his truck and he's out until noon. Rob called in sick so I moved his route to Dee.</blockquote>
+<div class="msg"><div class="av">M</div><div class="mb"><div class="mh"><b>Marcus</b><span class="mt">10:30 AM</span></div><div class="mx">Dee says she gets a login error now instead of a blank screen. Sam's tablet is in his truck and he's out until noon. Rob called in sick so I moved his route to Dee.</div></div></div>
 
-<p class="from">10:48 AM &middot; INTERNAL NOTE, Raj (Tier 2)</p>
-<blockquote class="internal">4.1.x shouldn't be affected by the disk issue. Could be a separate problem. Their routes were rebuilt Friday, so check whether routes show as Unassigned for today. Not sure.</blockquote>
+<div class="msg internal agent"><div class="av">R</div><div class="mb"><div class="mh"><b>Raj</b> <span class="sub">Tier 2</span><span class="tag">Internal note</span><span class="mt">10:48 AM</span></div><div class="mx">4.1.x shouldn't be affected by the disk issue. Could be a separate problem. Their routes were rebuilt Friday, so check whether routes show as Unassigned for today. Not sure.</div></div></div>
 
-<p class="from">11:15 AM &middot; INTERNAL NOTE, Lena</p>
-<blockquote class="internal">Route Assignment for 11/3: Tomas and Sam are assigned. Dee and Rob show Unassigned (Rob's move to Dee isn't in the system). So Dee/Rob is a dispatch issue, not ours. Tomas and Sam still unknown, probably the 4.1.2 version.</blockquote>
+<div class="msg internal agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="tag">Internal note</span><span class="mt">11:15 AM</span></div><div class="mx">Route Assignment for 11/3: Tomas and Sam are assigned. Dee and Rob show Unassigned (Rob's move to Dee isn't in the system). So Dee/Rob is a dispatch issue, not ours. Tomas and Sam still unknown, probably the 4.1.2 version.</div></div></div>
 
-<p class="from">11:20 AM &middot; Lena to Marcus and Priya</p>
-<blockquote>Marcus, can you assign Dee's and Rob's routes in the office system? Priya, can you update Tomas's and Sam's tablets to 4.2.0?</blockquote>
+<div class="msg agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b> <span class="sub">to Marcus and Priya</span><span class="mt">11:20 AM</span></div><div class="mx">Marcus, can you assign Dee's and Rob's routes in the office system? Priya, can you update Tomas's and Sam's tablets to 4.2.0?</div></div></div>
 
-<p class="from">11:42 AM &middot; Marcus</p>
-<blockquote>We're running those four off paper tickets right now, about 60 stops. I don't know how to update tablets, Priya does that. Please just tell me when it's fixed.</blockquote>
+<div class="msg"><div class="av">M</div><div class="mb"><div class="mh"><b>Marcus</b><span class="mt">11:42 AM</span></div><div class="mx">We're running those four off paper tickets right now, about 60 stops. I don't know how to update tablets, Priya does that. Please just tell me when it's fixed.</div></div></div>
 
-<p class="from">12:30 PM &middot; Priya</p>
-<blockquote>Pushed 4.2.0 to Tomas's tablet remotely. Will do Sam when he's back at his truck. Also, which disk was full? Is that on us?</blockquote>
+<div class="msg"><div class="av">P</div><div class="mb"><div class="mh"><b>Priya</b><span class="mt">12:30 PM</span></div><div class="mx">Pushed 4.2.0 to Tomas's tablet remotely. Will do Sam when he's back at his truck. Also, which disk was full? Is that on us?</div></div></div>
 
-<p class="from">1:15 PM &middot; Marcus</p>
-<blockquote>Tomas can see his deliveries now. I assigned Dee's route. Dee still gets the login error though.</blockquote>
+<div class="msg"><div class="av">M</div><div class="mb"><div class="mh"><b>Marcus</b><span class="mt">1:15 PM</span></div><div class="mx">Tomas can see his deliveries now. I assigned Dee's route. Dee still gets the login error though.</div></div></div>
 
-<p class="from">2:10 PM &middot; INTERNAL NOTE, Lena</p>
-<blockquote class="internal">Backup retention on the server is still "keep all." The job writes about 6 GB a night. At that rate D: fills again in a few weeks. I haven't changed it because I don't know whether the customer wants it changed or moved back to the NAS.</blockquote>
+<div class="msg internal agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="tag">Internal note</span><span class="mt">2:10 PM</span></div><div class="mx">Backup retention on the server is still "keep all." The job writes about 6 GB a night. At that rate D: fills again in a few weeks. I haven't changed it because I don't know whether the customer wants it changed or moved back to the NAS.</div></div></div>
 
-<p class="from">2:20 PM &middot; Marcus</p>
-<blockquote>Can you also check the Friday report printing twice? And we lost about four hours on 60 stops today. Is there going to be a credit?</blockquote>
+<div class="msg"><div class="av">M</div><div class="mb"><div class="mh"><b>Marcus</b><span class="mt">2:20 PM</span></div><div class="mx">Can you also check the Friday report printing twice? And we lost about four hours on 60 stops today. Is there going to be a credit?</div></div></div>
 
-<p class="from">3:00 PM &middot; Lena</p>
-<blockquote>Marcus, I'm handing this to a colleague who will pick it up first thing tomorrow. You'll have an update from us by 9 AM.</blockquote>
+<div class="msg agent"><div class="av">L</div><div class="mb"><div class="mh"><b>Lena</b><span class="mt">3:00 PM</span></div><div class="mx">Marcus, I'm handing this to a colleague who will pick it up first thing tomorrow. You'll have an update from us by 9 AM.</div></div></div>
 
 <div class="task"><strong>Your task:</strong> Write the handoff summary for the teammate taking over tomorrow. It should be something they could read in about a minute and then act on.</div>
 `
