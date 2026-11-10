@@ -24,8 +24,7 @@
     var len = function (s) { return s ? s.responses.join('').length + s.log.length : -1; };
     return len(b) > len(a) ? b : a;
   }
-  var dirHandle = null, fileTimer = null;
-  function safeName() { return (state && state.name || 'candidate').replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '') || 'candidate'; }
+    function safeName() { return (state && state.name || 'candidate').replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '') || 'candidate'; }
   function persist() {
     var ok = true, json = JSON.stringify(state);
     try {
@@ -34,37 +33,15 @@
     } catch (e) { ok = false; }
     var el = $('#saved');
     if (el) {
-      el.textContent = (ok ? 'Saved ' : 'NOT SAVED ') + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + (dirHandle ? ' + folder' : '');
+      el.textContent = (ok ? 'Saved ' : 'NOT SAVED ') + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
-    if (dirHandle) { clearTimeout(fileTimer); fileTimer = setTimeout(writeLive, 1500); }
   }
-  function writeInFolder(name, content) {
-    return dirHandle.getFileHandle(name, { create: true }).then(function (fh) {
-      return fh.createWritable();
-    }).then(function (w) {
-      return w.write(content).then(function () { return w.close(); });
-    });
-  }
-  function writeLive() {
-    if (!dirHandle || !state) return;
-    writeInFolder(safeName() + '_live.md', buildMd()).catch(function () { var el = $('#saved'); if (el) el.textContent = 'Folder save failed'; });
-  }
-  // Called after each Submit: a dated .html and .md snapshot, in the chosen folder or as downloads.
-  function snapshot(label) {
+  // Called once, when the last exercise is submitted: download .html and .md copies automatically.
+  function autoDownload() {
     flush();
-    var base = safeName() + '_' + label;
-    if (dirHandle) {
-      Promise.all([writeInFolder(base + '.html', buildHtml()), writeInFolder(base + '.md', buildMd())])
-        .catch(function () { var el = $('#saved'); if (el) el.textContent = 'Snapshot failed'; });
-    } else {
-      save(buildHtml(), 'text/html', 'html', base);
-      save(buildMd(), 'text/markdown', 'md', base);
-    }
-  }
-  function pickFolder() {
-    window.showDirectoryPicker({ mode: 'readwrite' })
-      .then(function (h) { dirHandle = h; $('#btn-autofile').textContent = 'Folder autosave on'; persist(); writeLive(); })
-      .catch(function () {});
+    var base = safeName() + '_final';
+    save(buildHtml(), 'text/html', 'html', base);
+    setTimeout(function () { save(buildMd(), 'text/markdown', 'md', base); }, 400);
   }
   function newState(name) {
     return {
@@ -323,9 +300,8 @@
           flush();
           state.submitted[i] = true;
           persist();
-          snapshot('after_exercise_' + EX[i].id);
           if (i < EX.length - 1) { state.current = i + 1; state.furthest = Math.max(state.furthest, i + 1); persist(); renderSteps(); loadExercise(state.current); }
-          else { show('#screen-done'); }
+          else { show('#screen-done'); autoDownload(); }
         });
     };
     $('#btn-brief').onclick = function () {
@@ -336,7 +312,6 @@
       if (document.fullscreenElement) document.exitFullscreen(); else goFullscreen();
     };
     $('#btn-copy-out').onclick = function () { flush(); downloadHtml(); };
-    if (window.showDirectoryPicker) $('#btn-autofile').onclick = pickFolder; else $('#btn-autofile').classList.add('hidden');
     $('#btn-back').onclick = function () { state.current = EX.length - 1; persist(); show('#screen-work'); renderSteps(); loadExercise(state.current); };
     $('#btn-dl-html').onclick = downloadHtml;
     $('#btn-dl-txt').onclick = downloadTxt;
