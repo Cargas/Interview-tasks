@@ -110,7 +110,14 @@ window.EXERCISES = [
 <h2>Exercise 3: Summarize a messy ticket</h2>
 
 <h3>Background: how deliveries work</h3>
-<p>Our customers are fuel and propane distributors. Each day, dispatchers in the <strong>office system</strong> (the &ldquo;back office&rdquo;) schedule the day's deliveries and assign them to <strong>routes</strong>, one route per driver. A <strong>sync service</strong> then sends each driver's route to the <strong>tablet</strong> in their truck, which is how drivers see their stops. If a route isn't assigned to a driver, or the sync isn't running, that driver's tablet shows nothing.</p>
+<p>Our customers are fuel and propane distributors. They deliver product, such as heating oil, propane or diesel, to homes, farms and businesses, usually by truck, and often on a regular schedule or when a customer's tank runs low. Each stop is a <strong>delivery</strong>: a customer, an address, a product and a quantity.</p>
+<ul>
+<li><strong>Office system (&ldquo;back office&rdquo;):</strong> where dispatchers plan the day. They schedule the day's deliveries and group them into <strong>routes</strong>, one route per driver and truck. A route is the ordered list of stops that driver will make that day.</li>
+<li><strong>Driver tablets:</strong> each driver has a tablet in the truck that shows their route. At each stop they record what was delivered (product and gallons), and that information flows back to the office for invoicing.</li>
+<li><strong>Sync service:</strong> software on a server that moves data between the office system and the tablets. It sends routes out in the morning and brings completed deliveries back.</li>
+<li><strong>Paper tickets:</strong> if a tablet isn't working, drivers can fall back to printed delivery tickets. It works, but it's slow and has to be re-entered later.</li>
+</ul>
+<p>So a driver can see nothing on their tablet for a few different reasons: the route was never assigned to them, the sync isn't running, or the tablet's app has a problem.</p>
 
 <h3>Scenario</h3>
 <p>This is a <strong>different customer and a different problem</strong> from the first two exercises.</p>
