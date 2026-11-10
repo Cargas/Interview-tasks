@@ -103,78 +103,83 @@ window.EXERCISES = [
   },
   {
     id: 3,
-    title: "Post-mortem",
-    audience: "Leadership, Engineering, Support, and CX (who will also share it with the customer)",
+    title: "Summarize a messy ticket",
+    audience: "A teammate taking over this ticket tomorrow morning",
     confirm: "This is the last exercise. Submit and finish? You can still go back and edit afterward.",
     brief: `
-<h2>Exercise 3: Post-mortem</h2>
+<h2>Exercise 3: Summarize a messy ticket</h2>
 
 <h3>Scenario</h3>
-<p>Same incident. It's been a few days. Leadership has asked for a post-mortem. <strong>It will be shared with everyone: leadership, Engineering and Support, and our CX team, who will also share it with the customer.</strong></p>
-<p>Below is the raw timeline from the team's notes, including internal details.</p>
+<p>This is a <strong>different customer and a different problem</strong> from the first two exercises.</p>
+<p>It's <strong>3:00 PM Monday</strong>. Lena, the TSE who has been working this ticket, is going off shift. You are picking it up tomorrow morning, and so is another teammate who has never seen it. The thread below is everything so far: customer emails, plus Lena's and Raj's internal notes (shown with an orange bar). It's long and out of order in places.</p>
 
-<h3>Raw timeline (all times Central)</h3>
-<pre>TUE OCT 28
-10:00 PM  Scheduled task TaxRateUpdate_Q4 starts on DB server.
-          (Task created by Implementation on Oct 21;
-          scheduled for 10 PM.)
-10:14 PM  Task has inserted 41 of 82 tax rate rows into
-          FuelTaxRate.
-10:20 PM  Windows Update forces restart. (Patch window for this
-          server group is 10 PM to 2 AM; set by IT Ops in
-          September.)
-10:31 PM  Server back online. Task Scheduler re-runs
-          TaxRateUpdate_Q4 from the beginning (restart-on-
-          failure is enabled).
-10:33 PM  Task completes: inserts all 82 rows. Logs "Success,
-          exit code 0." 41 rows from the first run are now
-          duplicated.
+<h3>Ticket thread</h3>
+<p class="from">Subject: RE: RE: FW: drivers not seeing deliveries??<br>Customer: Prairie Valley Propane</p>
 
-WED OCT 29
-2:00 AM   Nightly invoice generation starts. For duplicated
-          jurisdictions, the tax lookup returns two rows and
-          the county excise line is doubled.
-6:10 AM   212 invoices emailed to Ridgeline's customers.
-          19 customers on card auto-pay are charged.
-7:48 AM   Dana Whitfield (Ridgeline billing) opens a ticket:
-          invoices have wrong tax; customers already calling.
-8:05 AM   Automated reply asks for DB name, version,
-          screenshot. (Info we already have.)
-8:21 AM   Dana replies, frustrated.
-8:40 AM   Ticket assigned to a TSE.
-9:15 AM   TSE confirms tax line is double on sample invoices.
-9:22 AM   TSE checks audit log for tax config changes by the
-          customer. None. (This took about 40 minutes of the
-          investigation.)
-9:30 AM   Tom Brandt (Ridgeline Director of Ops) added to
-          thread. Says "second billing issue since spring."
-9:38 AM   TSE queries FuelTaxRate and finds 41 duplicated
-          jurisdictions.
-9:52 AM   Cause identified: interrupted run + re-run + script
-          has no existence check.
-10:05 AM  Support Lead approves hotfix; table backed up.
-10:40 AM  41 duplicate rows deleted.
-11:15 AM  Recalc of 212 invoices in test environment.
-          Sample verified.
-11:50 AM  Production recalc done. Corrected invoices reissued;
-          originals voided.
-12:15 PM  Status reply sent to Dana and Tom.
-1:00 PM   19 refunds submitted to card processor.
-2:10 PM   Other customers in the same patch group checked.
-          Cedar Valley Oil has 29 duplicate rows; their
-          invoice run is that night.
-2:25 PM   Cedar Valley duplicates removed. No invoices
-          affected.
-2:30 PM   Internal summary sent to VPs.
+<p class="from">Mon 7:12 AM &middot; Marcus Delgado (Dispatch Manager, customer)</p>
+<blockquote>Drivers can't see their deliveries on the tablets this morning. 6 of our 14 have nothing. Need this fixed NOW, we have 140 stops today.</blockquote>
 
-THU OCT 30
-9:00 AM   Dev begins work on a unique constraint and an
-          idempotent script. No release date yet.
-4:00 PM   Dana confirms refunds visible to her customers. Two
-          of her customers had already disputed the charge
-          with their card issuer.</pre>
+<p class="from">7:31 AM &middot; Lena (Cargas TSE)</p>
+<blockquote>Hi Marcus, sorry about this. Can you tell me which drivers, what version of the app they're on, and whether the deliveries show up in the office system?</blockquote>
 
-<div class="task"><strong>Your task:</strong> Write the post-mortem. Think about what the audience needs, and what you should and shouldn't include given that the customer will see it.</div>
+<p class="from">7:44 AM &middot; Marcus</p>
+<blockquote>Office system has everything. Kevin, Aaron, Tomas, Dee, Rob and Sam have nothing. Not sure on the version. Also while I have you, can you tell me why the Friday delivery report prints two copies? It's been like that for weeks.</blockquote>
+
+<p class="from">8:20 AM &middot; Marcus (forwarding a text from Kevin, a driver)</p>
+<blockquote>Kevin says his tablet shows "last sync Sat 6:02 PM." So it's been broken since Saturday. You guys must have changed something over the weekend. Sent from my iPhone</blockquote>
+
+<p class="from">8:35 AM &middot; INTERNAL NOTE, Lena</p>
+<blockquote class="internal">Checked the app server. "EF Sync Service" is Stopped. Event log shows it stopped Sun 11:48 PM with "There is not enough space on the disk." D: drive has 0 bytes free.</blockquote>
+
+<p class="from">8:52 AM &middot; INTERNAL NOTE, Lena</p>
+<blockquote class="internal">D:\\SQLBackups is 212 GB. It's normally about 40 GB. The backup retention setting is "keep all" and the folder has files going back to Oct 27. No idea who changed it.</blockquote>
+
+<p class="from">9:05 AM &middot; Lena to Marcus</p>
+<blockquote>I think I found it. The sync service stopped because the server ran out of disk space. I'm freeing space now and restarting it. It should be working in 15 to 20 minutes.</blockquote>
+
+<p class="from">9:40 AM &middot; INTERNAL NOTE, Lena</p>
+<blockquote class="internal">Moved backups older than 7 days to the archive share. 160 GB free now. Restarted EF Sync Service at 9:32.</blockquote>
+
+<p class="from">9:50 AM &middot; Marcus</p>
+<blockquote>Kevin and Aaron can see their deliveries now. Tomas, Dee, Rob and Sam still have nothing.</blockquote>
+
+<p class="from">10:05 AM &middot; Priya Natarajan (IT contractor for the customer, added to thread)</p>
+<blockquote>Hi, I manage their IT. I heard there's a VPN issue? We did swap their firewall Thursday, could that be related? Also, we moved the nightly backup job onto the D: drive last week because the NAS was full. I didn't tell anyone, sorry.</blockquote>
+
+<p class="from">10:12 AM &middot; INTERNAL NOTE, Lena</p>
+<blockquote class="internal">Tablets for Tomas, Dee, Rob, Sam are on app v4.1.2. Kevin and Aaron are on v4.2.0. Wondering if 4.1.x uses a different sync endpoint. Not confirmed. Asked Raj (Tier 2).</blockquote>
+
+<p class="from">10:30 AM &middot; Marcus</p>
+<blockquote>Dee says she gets a login error now instead of a blank screen. Sam's tablet is in his truck and he's out until noon. Rob called in sick so I moved his route to Dee.</blockquote>
+
+<p class="from">10:48 AM &middot; INTERNAL NOTE, Raj (Tier 2)</p>
+<blockquote class="internal">4.1.x shouldn't be affected by the disk issue. Could be a separate problem. Their routes were rebuilt Friday, so check whether routes show as Unassigned for today. Not sure.</blockquote>
+
+<p class="from">11:15 AM &middot; INTERNAL NOTE, Lena</p>
+<blockquote class="internal">Route Assignment for 11/3: Tomas and Sam are assigned. Dee and Rob show Unassigned (Rob's move to Dee isn't in the system). So Dee/Rob is a dispatch issue, not ours. Tomas and Sam still unknown, probably the 4.1.2 version.</blockquote>
+
+<p class="from">11:20 AM &middot; Lena to Marcus and Priya</p>
+<blockquote>Marcus, can you assign Dee's and Rob's routes in the office system? Priya, can you update Tomas's and Sam's tablets to 4.2.0?</blockquote>
+
+<p class="from">11:42 AM &middot; Marcus</p>
+<blockquote>We're running those four off paper tickets right now, about 60 stops. I don't know how to update tablets, Priya does that. Please just tell me when it's fixed.</blockquote>
+
+<p class="from">12:30 PM &middot; Priya</p>
+<blockquote>Pushed 4.2.0 to Tomas's tablet remotely. Will do Sam when he's back at his truck. Also, which disk was full? Is that on us?</blockquote>
+
+<p class="from">1:15 PM &middot; Marcus</p>
+<blockquote>Tomas can see his deliveries now. I assigned Dee's route. Dee still gets the login error though.</blockquote>
+
+<p class="from">2:10 PM &middot; INTERNAL NOTE, Lena</p>
+<blockquote class="internal">Backup retention on the server is still "keep all." The job writes about 6 GB a night. At that rate D: fills again in a few weeks. I haven't changed it because I don't know whether the customer wants it changed or moved back to the NAS.</blockquote>
+
+<p class="from">2:20 PM &middot; Marcus</p>
+<blockquote>Can you also check the Friday report printing twice? And we lost about four hours on 60 stops today. Is there going to be a credit?</blockquote>
+
+<p class="from">3:00 PM &middot; Lena</p>
+<blockquote>Marcus, I'm handing this to a colleague who will pick it up first thing tomorrow. You'll have an update from us by 9 AM.</blockquote>
+
+<div class="task"><strong>Your task:</strong> Write the handoff summary for the teammate taking over tomorrow. It should be something they could read in about a minute and then act on.</div>
 `
   }
 ];

@@ -389,7 +389,7 @@
       '<style>body{font:16px/1.6 -apple-system,Segoe UI,Arial,sans-serif;max-width:820px;margin:32px auto;padding:0 20px;color:#1b1f24}' +
       'h1{margin-bottom:0}h2{margin-top:36px;border-bottom:1px solid #d9dde3;padding-bottom:6px}.m{color:#5b6573}' +
       'table{border-collapse:collapse}td,th{border:1px solid #d9dde3;padding:6px 12px;text-align:left}' +
-      '.resp{background:#fafbfc;border:1px solid #d9dde3;border-radius:8px;padding:8px 20px}.log{font:13px ui-monospace,Menlo,monospace}</style></head><body>';
+      '.resp h2{font-size:17px;border:0;margin:16px 0 4px;padding:0}.resp{background:#fafbfc;border:1px solid #d9dde3;border-radius:8px;padding:8px 20px}.log{font:13px ui-monospace,Menlo,monospace}</style></head><body>';
     h += '<h1>' + esc(state.name) + '</h1><p class="m">Written exercises &middot; started ' + esc(new Date(state.startedAt).toLocaleString()) +
       ' &middot; exported ' + esc(new Date().toLocaleString()) + '</p>';
 
